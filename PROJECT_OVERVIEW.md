@@ -1,0 +1,98 @@
+# 🌟 Project Overview: samkaulebi.shop
+
+## 📖 Introduction
+**samkaulebi.shop** is a modern, premium e-commerce web application specifically built for selling jewelry (სამკაულები), fragrances (სუნამოები), and personal care products (თავის მოვლა). 
+
+The platform is designed with a high-end luxury aesthetic, offering a clean, user-friendly interface optimized for fast navigation, clear product showcasing, and an intuitive shopping experience. It has been bootstrapped using **Next.js 15** and **v0.app** ecosystem.
+
+---
+
+## 🛠 Tech Stack & Architecture
+
+### Core Technologies
+- **Framework:** [Next.js 15](https://nextjs.org/) (App Router)
+- **UI Library:** [React 19](https://react.dev/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/) with native PostCSS implementation
+- **Component Primitives:** [Radix UI](https://www.radix-ui.com/) (Accessible, unstyled UI elements like Dialog, Accordion, Checkbox, etc.)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Forms & Validation:** `react-hook-form` and `zod`
+- **Animations:** `tailwindcss-animate` and `tw-animate-css`
+
+### Font & Typography
+- **DM Sans** (Primary Sans-Serif variable font)
+- **Playfair Display** (Serif variable font, mainly for headings/luxury feel)
+- Defined globally in `app/layout.tsx`.
+
+---
+
+## 📂 Directory Structure
+
+The project follows a modular and modern Next.js project layout:
+
+```text
+samkaulebi.shop/
+├── app/                  # Next.js 13+ App Router
+│   ├── category/         # Dynamic category pages (e.g., /category/[slug])
+│   ├── product/          # Dynamic product detail pages (e.g., /product/[id])
+│   ├── shop/             # Main catalog/shopping page
+│   ├── globals.css       # Global Tailwind & Custom CSS variables
+│   ├── layout.tsx        # Root HTML layout, Font imports, Context Providers
+│   └── page.tsx          # Homepage containing standard e-commerce sections
+├── components/           # Reusable UI & Layout Components
+│   ├── boty/             # Core visual sections (Header, Hero, ProductGrid, Footer, etc.)
+│   └── ui/               # Radix UI wrapper components (Buttons, Inputs, etc.)
+├── hooks/                # Custom React hooks (e.g., use-mobile, use-toast)
+├── lib/                  # Utilities and Data layer
+│   └── data/             # Static mock data (products, categories, orders)
+└── public/               # Static assets (images, icons)
+```
+
+---
+
+## 💾 Data Layer & State Management
+
+### 1. Data Mocking (`lib/data/`)
+Currently, the application operates as a **Static Frontend Demo**. It does not use an external database like Prisma or Postgres. 
+- **Data Source:** Static TS objects act as the database (`products.ts`, `categories.ts`).
+- **Features:** Provides helper functions to simulate database requests like `getProductById`, `getProductsByCategory`, `searchProducts`, and `getFeaturedProducts`.
+
+### 2. State Management (`components/boty/cart-context.tsx`)
+- The application relies on the React **Context API** for global state.
+- `CartProvider` wraps the layout in `app/layout.tsx`.
+- Functions exposed: `addToCart`, `removeFromCart`, `updateQuantity`, `clearCart`.
+- Currently, cart state is kept in memory.
+
+---
+
+## 🚀 Key Features Implemented
+
+1. **Fully Responsive Design:** Adapts smoothly across mobile, tablet, and desktop viewports (`use-mobile` hook and Tailwind flex/grid utilities).
+2. **Shopping Cart Drawer:** A slide-out cart UI implementation without interrupting the browsing experience.
+3. **Dynamic Routing:** 
+   - Browsing by categories (`/category/jewelry`).
+   - Deep-linked product viewing pages.
+4. **Rich UI Components:** Testimonial carousels (`embla-carousel-react`), trusted badges, feature sections, and a newsletter CTA.
+5. **Analytics Ready:** Pre-configured with `@vercel/analytics`.
+
+---
+
+## 🚧 Next Steps & Recommendations for Production
+
+As a **Senior AI Architect**, I recommend the following phases before moving to full production:
+
+1. **Database Integration (Backend Layer):**
+   - Replace the static files in `lib/data` with server actions or API endpoints connecting to a real DB.
+   - Recommended tools: **Prisma ORM** + **PostgreSQL** (e.g., Supabase or Vercel Postgres).
+2. **Authentication Flow:**
+   - Integrate authentication for users to create accounts, see order history, and save wishlists.
+   - Recommended tool: **NextAuth.js (Auth.js)** or **Clerk**.
+3. **Payment Gateway Integration:**
+   - E-commerce cart logic needs a checkout session handler.
+   - Recommended tools: **Stripe** or local Georgian payment gateways (e.g., TBC Bank / Bank of Georgia e-commerce APIs).
+4. **Persistent Cart State:**
+   - Connect the `CartContext` with `localStorage` or sync it directly to the database so users don't lose items on page refresh.
+5. **SEO & Metadata Enhancements:**
+   - Generate dynamic Open Graph images and dynamic Metadata for each product page (`app/product/[id]/page.tsx`).
+
+---
+*Generated by your Senior AI Fullstack Developer & Architect.*
