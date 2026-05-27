@@ -1,6 +1,8 @@
 import { createAdminClient } from "@/lib/supabase/admin"
 import OrderStatusSelect from "./order-status-select"
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminOrdersPage() {
   const supabase = createAdminClient()
   const { data: orders } = await supabase

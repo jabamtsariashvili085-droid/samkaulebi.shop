@@ -4,6 +4,8 @@ import Image from "next/image"
 import { Plus } from "lucide-react"
 import DeleteProductButton from "./delete-product-button"
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminProductsPage() {
   const supabase = createAdminClient()
   const { data: products } = await supabase

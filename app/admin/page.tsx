@@ -1,6 +1,8 @@
 import { createAdminClient } from "@/lib/supabase/admin"
 import { Package, ShoppingBag, TrendingUp, Clock } from "lucide-react"
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminDashboard() {
   const supabase = createAdminClient()
 
