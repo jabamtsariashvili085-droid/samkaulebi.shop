@@ -1,7 +1,5 @@
 "use client"
 
-import React from "react"
-
 import { useState } from "react"
 import { ArrowRight, Check } from "lucide-react"
 
@@ -9,7 +7,7 @@ export function Newsletter() {
   const [email, setEmail] = useState("")
   const [isSubscribed, setIsSubscribed] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.BaseSyntheticEvent) => {
     e.preventDefault()
     if (email) {
       setIsSubscribed(true)
@@ -18,43 +16,70 @@ export function Newsletter() {
   }
 
   return (
-    <section className="py-24 bg-primary">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="font-serif text-4xl leading-tight text-primary-foreground mb-4 text-balance md:text-7xl">
-            გამოიწერე სიახლეები
+    <section className="relative py-28 overflow-hidden bg-[#EDE6DC]">
+      {/* Decorative background rings */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+        <svg
+          width="900"
+          height="900"
+          viewBox="0 0 900 900"
+          fill="none"
+          className="opacity-[0.18]"
+        >
+          <circle cx="450" cy="450" r="200" stroke="#4F5B3A" strokeWidth="1" />
+          <circle cx="450" cy="450" r="300" stroke="#4F5B3A" strokeWidth="0.75" />
+          <circle cx="450" cy="450" r="400" stroke="#4F5B3A" strokeWidth="0.5" />
+          <circle cx="450" cy="450" r="430" stroke="#4F5B3A" strokeWidth="0.4" />
+        </svg>
+      </div>
+
+      {/* Soft top/bottom edge fades */}
+      <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-xl mx-auto text-center">
+          {/* Eyebrow */}
+          <p className="text-xs uppercase tracking-[0.25em] text-foreground/45 font-medium mb-5">
+            Newsletter
+          </p>
+
+          <h2 className="font-serif text-4xl md:text-6xl leading-[1.05] text-foreground mb-5 text-balance font-semibold">
+            პირველი გაიგე,<br />
+            <span className="font-normal italic">პირველი ისარგებლე.</span>
           </h2>
-          <p className="text-lg text-primary-foreground/80 mb-10">
-            მიიღე ექსკლუზიური შეთავაზებები, სიახლეები და ფასდაკლებები პირველმა.
+
+          <p className="text-base text-foreground/55 mb-10 max-w-sm mx-auto leading-relaxed">
+            ექსკლუზიური შეთავაზებები, ახალი კოლექციები და სიახლეები — პირდაპირ შენს ელ-ფოსტაზე.
           </p>
 
           {isSubscribed ? (
-            <div className="inline-flex items-center gap-3 bg-primary-foreground/10 backdrop-blur-sm rounded-full px-8 py-4">
-              <Check className="w-5 h-5 text-primary-foreground" />
-              <span className="text-primary-foreground">მადლობა გამოწერისთვის!</span>
+            <div className="inline-flex items-center gap-3 bg-primary/10 border border-primary/20 rounded-full px-8 py-4">
+              <Check className="w-4 h-4 text-primary" />
+              <span className="text-sm text-foreground font-medium">მადლობა! გამოწერა წარმატებულია.</span>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="შეიყვანე ელ-ფოსტა"
-                className="flex-1 bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 rounded-full px-6 py-4 text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:border-primary-foreground/40 boty-transition"
+                className="flex-1 bg-background/70 backdrop-blur-sm border border-border rounded-full px-6 py-3.5 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all"
                 required
               />
               <button
                 type="submit"
-                className="group inline-flex items-center justify-center gap-2 bg-primary-foreground text-primary px-8 py-4 rounded-full text-sm tracking-wide boty-transition hover:bg-primary-foreground/90"
+                className="group inline-flex items-center justify-center gap-2 bg-foreground text-background px-7 py-3.5 rounded-full text-sm font-medium hover:bg-foreground/85 transition-all duration-300 whitespace-nowrap"
               >
                 გამოწერა
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 boty-transition" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" />
               </button>
             </form>
           )}
 
-          <p className="text-sm text-primary-foreground/60 mt-6">
-            ნებისმიერ დროს შეგიძლია გამოწერის გაუქმება.
+          <p className="text-xs text-foreground/35 mt-5">
+            სპამი არ გვიყვარს. ნებისმიერ დროს გაუქმება შეიძლება.
           </p>
         </div>
       </div>
