@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { ArrowRight, Check } from "lucide-react"
+import Image from "next/image"
 
 export function Newsletter() {
   const [email, setEmail] = useState("")
@@ -16,36 +17,60 @@ export function Newsletter() {
   }
 
   return (
-    <section className="relative py-28 overflow-hidden bg-gradient-to-br from-[#C9A84C] via-[#D4AF37] to-[#B8962E]">
-      {/* Decorative background rings */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-        <svg
-          width="900"
-          height="900"
-          viewBox="0 0 900 900"
-          fill="none"
-          className="opacity-[0.25]"
-        >
-          <circle cx="450" cy="450" r="200" stroke="#7A5C1E" strokeWidth="1" />
-          <circle cx="450" cy="450" r="300" stroke="#7A5C1E" strokeWidth="0.75" />
-          <circle cx="450" cy="450" r="400" stroke="#7A5C1E" strokeWidth="0.5" />
-          <circle cx="450" cy="450" r="430" stroke="#7A5C1E" strokeWidth="0.4" />
-        </svg>
-      </div>
+    <section className="relative w-full overflow-hidden" style={{ minHeight: 420 }}>
+      {/* Background image */}
+      <Image
+        src="/images/banner-bestsellers.jpg"
+        alt="Best Sellers"
+        fill
+        className="object-cover object-center"
+        priority
+      />
 
-      {/* Soft top/bottom edge fades */}
-      <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-background to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background to-transparent" />
+      {/* Subtle overlay so form text is readable */}
+      <div className="absolute inset-0 bg-black/20" />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 flex justify-center">
-        <iframe
-          src="https://assets.pinterest.com/ext/embed.html?id=777011742008428835"
-          height="900"
-          width="450"
-          frameBorder="0"
-          scrolling="no"
-          className="rounded-2xl shadow-xl"
-        />
+      {/* Newsletter form — centered */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[420px] px-6 py-16">
+        <p className="text-xs uppercase tracking-[0.25em] text-white/70 font-medium mb-4">
+          Newsletter
+        </p>
+        <h2 className="font-serif text-4xl md:text-5xl text-white text-center mb-4 font-semibold drop-shadow-md">
+          პირველი გაიგე,{" "}
+          <span className="italic font-normal">პირველი ისარგებლე.</span>
+        </h2>
+        <p className="text-sm text-white/75 mb-8 text-center max-w-sm">
+          ექსკლუზიური შეთავაზებები და ახალი კოლექციები — პირდაპირ შენს ელ-ფოსტაზე.
+        </p>
+
+        {isSubscribed ? (
+          <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-8 py-4">
+            <Check className="w-4 h-4 text-white" />
+            <span className="text-sm text-white font-medium">მადლობა! გამოწერა წარმატებულია.</span>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-md">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="შეიყვანე ელ-ფოსტა"
+              className="flex-1 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-6 py-3.5 text-white text-sm placeholder:text-white/55 focus:outline-none focus:border-white/60 transition-all"
+              required
+            />
+            <button
+              type="submit"
+              className="group inline-flex items-center justify-center gap-2 bg-white text-foreground px-7 py-3.5 rounded-full text-sm font-medium hover:bg-white/90 transition-all duration-300 whitespace-nowrap"
+            >
+              გამოწერა
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" />
+            </button>
+          </form>
+        )}
+
+        <p className="text-xs text-white/40 mt-5">
+          სპამი არ გვიყვარს. ნებისმიერ დროს გაუქმება შეიძლება.
+        </p>
       </div>
     </section>
   )
