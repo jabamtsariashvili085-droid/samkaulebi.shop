@@ -20,7 +20,7 @@ export function Newsletter() {
     <section className="relative w-full overflow-hidden" style={{ minHeight: 420 }}>
       {/* Background image */}
       <Image
-        src="/images/banner-bestsellers.jpg"
+        src="/images/banner-bestsellers.jpg.webp"
         alt="Best Sellers"
         fill
         className="object-cover object-center"
