@@ -62,7 +62,7 @@ export function Header() {
     return () => window.removeEventListener("keydown", handler)
   }, [])
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
+  const handleSearchSubmit = (e: React.BaseSyntheticEvent) => {
     e.preventDefault()
     if (searchQuery.trim()) {
       router.push(`/shop?q=${encodeURIComponent(searchQuery.trim())}`)
@@ -80,11 +80,11 @@ export function Header() {
               : "bg-[rgba(255,255,255,0.35)] backdrop-blur-md border border-[rgba(255,255,255,0.4)] shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
           }`}
         >
-          <div className="flex items-center justify-between h-[68px]">
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center h-[68px]">
             {/* Mobile menu button */}
             <button
               type="button"
-              className="lg:hidden p-2 text-foreground/70 hover:text-foreground transition-colors"
+              className="lg:hidden p-2 text-foreground/70 hover:text-foreground transition-colors justify-self-start"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="მენიუ"
             >
@@ -168,14 +168,14 @@ export function Header() {
             </div>
 
             {/* Logo */}
-            <Link href="/" className="absolute left-1/2 -translate-x-1/2">
+            <Link href="/" className="justify-self-center">
               <span className="font-serif text-2xl lg:text-3xl tracking-wider text-foreground">
                 samkaulebi<span className="text-primary">.shop</span>
               </span>
             </Link>
 
             {/* Right Actions */}
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 justify-self-end">
               <button
                 type="button"
                 onClick={() => setSearchOpen(true)}
