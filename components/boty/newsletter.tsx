@@ -16,7 +16,7 @@ export function Newsletter() {
   }
 
   return (
-    <section className="relative py-28 overflow-hidden bg-[#EDE6DC]">
+    <section className="relative py-28 overflow-hidden bg-[#F3E4B0]">
       {/* Decorative background rings */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
         <svg
