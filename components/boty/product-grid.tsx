@@ -6,6 +6,7 @@ import Link from "next/link"
 import { ShoppingBag } from "lucide-react"
 import { useCart } from "./cart-context"
 import { WishlistButton } from "./wishlist-button"
+import { StockBadge } from "./stock-badge"
 import { categories } from "@/lib/data/categories"
 import type { CategorySlug, Product } from "@/lib/data/types"
 
@@ -217,6 +218,7 @@ export function ProductGrid({ products }: { products: Product[] }) {
                       </span>
                     )}
                   </div>
+                  <StockBadge stock={product.stock} className="mt-2" />
                 </div>
               </div>
             </Link>

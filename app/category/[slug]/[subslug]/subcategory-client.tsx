@@ -13,6 +13,7 @@ import { Header } from "@/components/boty/header"
 import { Footer } from "@/components/boty/footer"
 import { useCart } from "@/components/boty/cart-context"
 import { WishlistButton } from "@/components/boty/wishlist-button"
+import { StockBadge } from "@/components/boty/stock-badge"
 import type { Product, Category, Subcategory } from "@/lib/data/types"
 
 interface SubcategoryClientProps {
@@ -292,6 +293,7 @@ function ProductCard({ product, onAddToCart }: { product: Product; onAddToCart: 
             <span className="text-sm text-muted-foreground line-through">{product.originalPrice}₾</span>
           )}
         </div>
+        <StockBadge stock={product.stock} />
         <Button
           size="sm"
           className="w-full mt-2"

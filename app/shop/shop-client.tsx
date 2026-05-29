@@ -8,6 +8,7 @@ import { Header } from "@/components/boty/header"
 import { Footer } from "@/components/boty/footer"
 import { useCart } from "@/components/boty/cart-context"
 import { WishlistButton } from "@/components/boty/wishlist-button"
+import { StockBadge } from "@/components/boty/stock-badge"
 import type { CategorySlug, SubcategorySlug, Product, Category } from "@/lib/data/types"
 
 export function ShopClient({ products, categories }: { products: Product[]; categories: Category[] }) {
@@ -492,6 +493,7 @@ function ProductCard({
               </span>
             )}
           </div>
+          <StockBadge stock={product.stock} className="mt-3" />
         </div>
       </div>
     </Link>

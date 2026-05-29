@@ -8,6 +8,7 @@ import { Header } from "@/components/boty/header"
 import { Footer } from "@/components/boty/footer"
 import { useCart } from "@/components/boty/cart-context"
 import { WishlistButton } from "@/components/boty/wishlist-button"
+import { StockBadge } from "@/components/boty/stock-badge"
 import type { Product } from "@/lib/data/types"
 
 interface ProductDetailClientProps {
@@ -158,6 +159,7 @@ export function ProductDetailClient({ product, category, subcategory, relatedPro
                 <span className={`text-sm font-medium ${product.stock > 0 ? 'text-green-700' : 'text-red-500'}`}>
                   {product.stock > 0 ? `მარაგშია (${product.stock} ერთეული)` : 'არ არის მარაგში'}
                 </span>
+                <StockBadge stock={product.stock} />
               </div>
 
               {/* Quantity + Add to Cart */}
