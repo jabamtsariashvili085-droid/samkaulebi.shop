@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 export async function POST(request: NextRequest) {
@@ -11,6 +12,10 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = createAdminClient()
+
+    // Link the order to the signed-in customer (if any) so it appears in their cabinet.
+    const sessionClient = await createClient()
+    const { data: { user } } = await sessionClient.auth.getUser()
 
     const { data: order, error: orderError } = await supabase
       .from('orders')
@@ -25,6 +30,7 @@ export async function POST(request: NextRequest) {
         status: 'pending',
         subtotal,
         total,
+        user_id: user?.id ?? null,
       })
       .select('id')
       .single()

@@ -33,9 +33,19 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/admin', request.url))
   }
 
+  // Customer account area — require login (login & register stay public)
+  const path = request.nextUrl.pathname
+  const isAccountAuthPage = path === '/account/login' || path === '/account/register'
+  if (path.startsWith('/account') && !isAccountAuthPage && !user) {
+    return NextResponse.redirect(new URL('/account/login', request.url))
+  }
+  if (isAccountAuthPage && user) {
+    return NextResponse.redirect(new URL('/account', request.url))
+  }
+
   return response
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*', '/account/:path*'],
 }
