@@ -70,7 +70,7 @@ export function CategoryShowcase() {
             return (
               <Link
                 key={category.id}
-                href={`/shop/${category.slug}`}
+                href={`/category/${category.slug}`}
                 className={`group relative overflow-hidden rounded-3xl bg-card boty-shadow boty-transition hover:scale-[1.02] ${
                   isVisible ? 'animate-blur-in opacity-0' : 'opacity-0'
                 }`}

@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { DM_Sans, Playfair_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { CartProvider } from '@/components/boty/cart-context'
+import { CookieConsent } from '@/components/boty/cookie-consent'
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/site'
 import './globals.css'
 
@@ -80,6 +81,7 @@ export default function RootLayout({
         <CartProvider>
           {children}
         </CartProvider>
+        <CookieConsent />
         <Analytics />
       </body>
     </html>
