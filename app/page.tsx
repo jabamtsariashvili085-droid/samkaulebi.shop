@@ -8,15 +8,19 @@ import { Testimonials } from "@/components/boty/testimonials"
 import { CTABanner } from "@/components/boty/cta-banner"
 import { Newsletter } from "@/components/boty/newsletter"
 import { Footer } from "@/components/boty/footer"
+import { getAllProducts } from "@/lib/supabase/products"
 
-export default function HomePage() {
+export const dynamic = "force-dynamic"
+
+export default async function HomePage() {
+  const products = await getAllProducts()
   return (
     <main>
       <Header />
       <Hero />
       <TrustBadges />
       <CategoryShowcase />
-      <ProductGrid />
+      <ProductGrid products={products} />
       <FeatureSection />
       <Testimonials />
       <CTABanner />
