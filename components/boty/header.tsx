@@ -7,7 +7,7 @@ import { Menu, X, ShoppingBag, Search, User, ChevronDown, Gem, Sparkles, Droplet
 import { CartDrawer } from "./cart-drawer"
 import { useCart } from "./cart-context"
 import { categories } from "@/lib/data/categories"
-import { products } from "@/lib/data/products"
+import { createClient } from "@/lib/supabase/client"
 
 const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   gem: Gem,
@@ -21,6 +21,15 @@ const categoryDescriptions: Record<string, string> = {
   haircare: "შამპუნები, ზეთები, სერუმები",
 }
 
+type SearchProduct = {
+  id: string
+  name: string
+  nameEn: string
+  description: string
+  price: number
+  images: string[]
+}
+
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
@@ -31,6 +40,7 @@ export function Header() {
   const searchRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const pathname = usePathname()
+  const [allProducts, setAllProducts] = useState<SearchProduct[]>([])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -44,7 +54,7 @@ export function Header() {
   }, [pathname])
 
   const searchResults = searchQuery.trim().length > 1
-    ? products.filter(p =>
+    ? allProducts.filter(p =>
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.nameEn.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -55,6 +65,28 @@ export function Header() {
     if (searchOpen) setTimeout(() => searchRef.current?.focus(), 50)
     else setSearchQuery("")
   }, [searchOpen])
+
+  // Lazy-load products from Supabase the first time search opens
+  useEffect(() => {
+    if (!searchOpen || allProducts.length > 0) return
+    const supabase = createClient()
+    supabase
+      .from("products")
+      .select("id,name,name_en,description,price,images")
+      .then(({ data }) => {
+        if (!data) return
+        setAllProducts(
+          data.map((p) => ({
+            id: p.id as string,
+            name: p.name as string,
+            nameEn: (p.name_en as string) ?? "",
+            description: (p.description as string) ?? "",
+            price: Number(p.price) || 0,
+            images: (p.images as string[]) ?? [],
+          }))
+        )
+      })
+  }, [searchOpen, allProducts.length])
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setSearchOpen(false) }

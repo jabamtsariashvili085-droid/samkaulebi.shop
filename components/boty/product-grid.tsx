@@ -5,11 +5,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { ShoppingBag } from "lucide-react"
 import { useCart } from "./cart-context"
-import { products, getFeaturedProducts } from "@/lib/data/products"
 import { categories } from "@/lib/data/categories"
-import type { CategorySlug } from "@/lib/data/types"
+import type { CategorySlug, Product } from "@/lib/data/types"
 
-export function ProductGrid() {
+export function ProductGrid({ products }: { products: Product[] }) {
   const [selectedCategory, setSelectedCategory] = useState<CategorySlug>("jewelry")
   const [isVisible, setIsVisible] = useState(false)
   const [isTransitioning, setIsTransitioning] = useState(false)
