@@ -1,3 +1,5 @@
+import Link from "next/link"
+import { Eye } from "lucide-react"
 import { createAdminClient } from "@/lib/supabase/admin"
 import OrderStatusSelect from "./order-status-select"
 
@@ -38,6 +40,7 @@ export default async function AdminOrdersPage() {
                 <th className="text-left px-5 py-3 text-muted-foreground font-medium">თანხა</th>
                 <th className="text-left px-5 py-3 text-muted-foreground font-medium">სტატუსი</th>
                 <th className="text-left px-5 py-3 text-muted-foreground font-medium">თარიღი</th>
+                <th className="px-5 py-3" />
               </tr>
             </thead>
             <tbody className="divide-y divide-border/50">
@@ -63,6 +66,15 @@ export default async function AdminOrdersPage() {
                   </td>
                   <td className="px-5 py-4 text-muted-foreground text-xs">
                     {new Date(order.created_at).toLocaleDateString('ka-GE')}
+                  </td>
+                  <td className="px-5 py-4">
+                    <Link
+                      href={`/admin/orders/${order.id}`}
+                      className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      ნახვა
+                    </Link>
                   </td>
                 </tr>
               ))}
