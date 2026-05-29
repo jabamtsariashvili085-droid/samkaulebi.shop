@@ -5,6 +5,7 @@ import sharp from 'sharp'
 async function requireAdmin() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  if (!user || user.app_metadata?.role !== 'admin') return null
   return user
 }
 

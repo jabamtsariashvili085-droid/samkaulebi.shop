@@ -5,7 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 async function requireAdmin() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
+  if (!user || user.app_metadata?.role !== 'admin') return null
   return user
 }
 

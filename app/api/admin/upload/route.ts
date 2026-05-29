@@ -7,7 +7,7 @@ import { r2Client, R2_BUCKET } from '@/lib/r2/client'
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!user || user.app_metadata?.role !== 'admin') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { filename, contentType, folder = 'products' } = await request.json()
 
