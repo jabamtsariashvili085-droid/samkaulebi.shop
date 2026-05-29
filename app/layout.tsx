@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { DM_Sans, Playfair_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { CartProvider } from '@/components/boty/cart-context'
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/site'
 import './globals.css'
 
 const dmSans = DM_Sans({ 
@@ -18,10 +19,33 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'samkaulebi.shop — სამკაულები, სუნამოები, თავის მოვლა',
-  description: 'პრემიუმ სამკაულები, სუნამოები და თავის მოვლის საშუალებები. საუკეთესო ხარისხი საუკეთესო ფასად.',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'samkaulebi.shop — სამკაულები, სუნამოები, თავის მოვლა',
+    template: '%s — samkaulebi.shop',
+  },
+  description: SITE_DESCRIPTION,
   generator: 'v0.app',
   keywords: ['სამკაულები', 'სუნამოები', 'თავის მოვლა', 'ბეჭდები', 'ყელსაბამები', 'პარფიუმერია', 'jewelry', 'perfume', 'haircare'],
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    locale: 'ka_GE',
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: 'samkaulebi.shop — სამკაულები, სუნამოები, თავის მოვლა',
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'samkaulebi.shop — სამკაულები, სუნამოები, თავის მოვლა',
+    description: SITE_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
   icons: {
     icon: [
       {
