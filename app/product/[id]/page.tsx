@@ -11,7 +11,8 @@ interface PageProps {
 
 export default async function ProductPage({ params }: PageProps) {
   const { id } = await params
-  const product = await getProductById(id)
+  const decodedId = decodeURIComponent(id)
+  const product = await getProductById(decodedId)
   if (!product) notFound()
 
   const category = categories.find((c) => c.slug === product.categoryId) ?? null
