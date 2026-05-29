@@ -7,6 +7,7 @@ import { ShoppingBag, SlidersHorizontal, X, ChevronDown, ChevronRight } from "lu
 import { Header } from "@/components/boty/header"
 import { Footer } from "@/components/boty/footer"
 import { useCart } from "@/components/boty/cart-context"
+import { WishlistButton } from "@/components/boty/wishlist-button"
 import type { CategorySlug, SubcategorySlug, Product, Category } from "@/lib/data/types"
 
 export function ShopClient({ products, categories }: { products: Product[]; categories: Category[] }) {
@@ -460,6 +461,10 @@ function ProductCard({
               {getBadgeLabel(product.badge)}
             </span>
           )}
+          <WishlistButton
+            product={{ id: product.id, name: product.name, price: product.price, image: product.images[0], originalPrice: product.originalPrice }}
+            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center boty-shadow boty-transition"
+          />
           
           <button
             type="button"

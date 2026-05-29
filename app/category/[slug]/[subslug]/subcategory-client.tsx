@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import { Header } from "@/components/boty/header"
 import { Footer } from "@/components/boty/footer"
 import { useCart } from "@/components/boty/cart-context"
+import { WishlistButton } from "@/components/boty/wishlist-button"
 import type { Product, Category, Subcategory } from "@/lib/data/types"
 
 interface SubcategoryClientProps {
@@ -266,6 +267,10 @@ function ProductCard({ product, onAddToCart }: { product: Product; onAddToCart: 
               -{discount}%
             </Badge>
           )}
+          <WishlistButton
+            product={{ id: product.id, name: product.name, price: product.price, image: product.images[0], originalPrice: product.originalPrice }}
+            className="absolute top-3 right-3 w-9 h-9 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center boty-shadow boty-transition"
+          />
           {product.stock === 0 && (
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
               <span className="text-white font-medium">არ არის მარაგში</span>

@@ -7,6 +7,7 @@ import { ChevronRight, Minus, Plus, ShoppingBag, Truck, RotateCcw, Shield, Star 
 import { Header } from "@/components/boty/header"
 import { Footer } from "@/components/boty/footer"
 import { useCart } from "@/components/boty/cart-context"
+import { WishlistButton } from "@/components/boty/wishlist-button"
 import type { Product } from "@/lib/data/types"
 
 interface ProductDetailClientProps {
@@ -193,6 +194,12 @@ export function ProductDetailClient({ product, category, subcategory, relatedPro
                   <ShoppingBag className="w-4 h-4" />
                   {added ? '✓ დამატებულია' : 'კალათაში დამატება'}
                 </button>
+
+                <WishlistButton
+                  product={{ id: product.id, name: product.name, price: product.price, image: product.images[0], originalPrice: product.originalPrice }}
+                  className="w-14 h-14 rounded-full border border-border flex items-center justify-center hover:bg-muted boty-transition shrink-0"
+                  size={20}
+                />
               </div>
 
               {/* Trust Badges */}

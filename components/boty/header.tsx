@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
-import { Menu, X, ShoppingBag, Search, User, ChevronDown, Gem, Sparkles, Droplets, ArrowRight } from "lucide-react"
+import { Menu, X, ShoppingBag, Search, User, Heart, ChevronDown, Gem, Sparkles, Droplets, ArrowRight } from "lucide-react"
 import { CartDrawer } from "./cart-drawer"
 import { useCart } from "./cart-context"
+import { useWishlist } from "./wishlist-context"
 import { categories } from "@/lib/data/categories"
 import { createClient } from "@/lib/supabase/client"
 
@@ -37,6 +38,7 @@ export function Header() {
   const [searchQuery, setSearchQuery] = useState("")
   const [scrolled, setScrolled] = useState(false)
   const { setIsOpen, itemCount } = useCart()
+  const { count: wishlistCount } = useWishlist()
   const searchRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const pathname = usePathname()
@@ -222,6 +224,18 @@ export function Header() {
                 aria-label="ანგარიში"
               >
                 <User className="w-[18px] h-[18px]" />
+              </Link>
+              <Link
+                href="/wishlist"
+                className="relative p-2.5 text-foreground/65 hover:text-foreground hover:bg-foreground/5 transition-all duration-200 rounded-xl"
+                aria-label="სურვილების სია"
+              >
+                <Heart className="w-[18px] h-[18px]" />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-primary text-primary-foreground text-[9px] flex items-center justify-center rounded-full font-bold leading-none">
+                    {wishlistCount}
+                  </span>
+                )}
               </Link>
               <button
                 type="button"

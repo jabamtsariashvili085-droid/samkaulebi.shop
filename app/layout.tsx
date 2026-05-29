@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { DM_Sans, Playfair_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { CartProvider } from '@/components/boty/cart-context'
+import { WishlistProvider } from '@/components/boty/wishlist-context'
 import { CookieConsent } from '@/components/boty/cookie-consent'
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/site'
 import './globals.css'
@@ -79,7 +80,9 @@ export default function RootLayout({
     <html lang="ka" className="bg-background">
       <body className={`${dmSans.variable} ${playfairDisplay.variable} font-sans antialiased`}>
         <CartProvider>
-          {children}
+          <WishlistProvider>
+            {children}
+          </WishlistProvider>
         </CartProvider>
         <CookieConsent />
         <Analytics />

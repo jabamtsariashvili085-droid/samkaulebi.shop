@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ShoppingBag } from "lucide-react"
 import { useCart } from "./cart-context"
+import { WishlistButton } from "./wishlist-button"
 import { categories } from "@/lib/data/categories"
 import type { CategorySlug, Product } from "@/lib/data/types"
 
@@ -179,6 +180,10 @@ export function ProductGrid({ products }: { products: Product[] }) {
                       {getBadgeLabel(product.badge)}
                     </span>
                   )}
+                  <WishlistButton
+                    product={{ id: product.id, name: product.name, price: product.price, image: product.images[0], originalPrice: product.originalPrice }}
+                    className="absolute top-4 right-4 w-10 h-10 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center boty-shadow boty-transition"
+                  />
                   {/* Quick add button */}
                   <button
                     type="button"
