@@ -14,14 +14,14 @@ export async function POST(request: NextRequest) {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
-  const { name, name_en, slug, icon, description } = body
+  const { name, name_en, slug, icon, description, image } = body
 
   if (!name || !slug) return NextResponse.json({ error: 'name and slug required' }, { status: 400 })
 
   const admin = createAdminClient()
   const { data, error } = await admin
     .from('categories')
-    .insert({ id: slug, name, name_en: name_en || name, slug, icon: icon || 'gem', description: description || '' })
+    .insert({ id: slug, name, name_en: name_en || name, slug, icon: icon || 'gem', description: description || '', image: image || null })
     .select()
     .single()
 

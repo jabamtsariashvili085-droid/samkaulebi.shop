@@ -19,7 +19,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
   const { data, error } = await admin
     .from('categories')
-    .update({ name: body.name, name_en: body.name_en, description: body.description })
+    .update({ name: body.name, name_en: body.name_en, description: body.description, image: body.image || null })
     .eq('id', id)
     .select()
     .single()

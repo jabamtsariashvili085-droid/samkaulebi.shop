@@ -9,6 +9,7 @@ import { CTABanner } from "@/components/boty/cta-banner"
 import { Newsletter } from "@/components/boty/newsletter"
 import { Footer } from "@/components/boty/footer"
 import { getAllProducts } from "@/lib/supabase/products"
+import { getCategoriesWithImages } from "@/lib/supabase/categories"
 import { JsonLd } from "@/components/seo/json-ld"
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site"
 
@@ -16,6 +17,10 @@ export const dynamic = "force-dynamic"
 
 export default async function HomePage() {
   const products = await getAllProducts()
+  const cats = await getCategoriesWithImages()
+  const categoryImageMap = Object.fromEntries(
+    cats.filter((c) => c.image).map((c) => [c.slug, c.image as string])
+  )
 
   const organizationLd = {
     "@context": "https://schema.org",
@@ -42,7 +47,7 @@ export default async function HomePage() {
       <Header />
       <Hero />
       <TrustBadges />
-      <CategoryShowcase />
+      <CategoryShowcase images={categoryImageMap} />
       <ProductGrid products={products} />
       <FeatureSection />
       <Testimonials />

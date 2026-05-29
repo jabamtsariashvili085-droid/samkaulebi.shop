@@ -14,11 +14,12 @@ import { Footer } from "@/components/boty/footer"
 import { useCart } from "@/components/boty/cart-context"
 import { WishlistButton } from "@/components/boty/wishlist-button"
 import { StockBadge } from "@/components/boty/stock-badge"
-import type { Product, Category, Subcategory } from "@/lib/data/types"
+import type { Product } from "@/lib/data/types"
+import type { CategoryRow, SubcategoryRow } from "@/lib/supabase/categories"
 
 interface CategoryClientProps {
-  category: Category
-  subcategories: Subcategory[]
+  category: CategoryRow
+  subcategories: SubcategoryRow[]
   categoryProducts: Product[]
   subProductCounts: Record<string, number>
 }
@@ -148,7 +149,7 @@ export function CategoryClient({ category, subcategories, categoryProducts, subP
         {/* Hero Banner */}
         <div
           className="relative h-48 md:h-64 bg-cover bg-center"
-          style={{ backgroundImage: `url(${category.image})` }}
+          style={category.image ? { backgroundImage: `url(${category.image})` } : undefined}
         >
           <div className="absolute inset-0 bg-black/50" />
           <div className="relative z-10 h-full flex flex-col items-center justify-center text-white">
@@ -181,7 +182,7 @@ export function CategoryClient({ category, subcategories, categoryProducts, subP
                   className="group relative aspect-square rounded-xl overflow-hidden"
                 >
                   <Image
-                    src={category.image}
+                    src={sub.image || category.image || "/placeholder.svg"}
                     alt={sub.name}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"

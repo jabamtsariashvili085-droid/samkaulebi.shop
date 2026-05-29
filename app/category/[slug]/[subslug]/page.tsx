@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { categories } from "@/lib/data/categories"
+import { getCategoryBySlug, getSubcategory } from "@/lib/supabase/categories"
 import { getProductsBySubcategory } from "@/lib/supabase/products"
 import { SubcategoryClient } from "./subcategory-client"
 
@@ -12,25 +12,32 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug, subslug } = await params
-  const category = categories.find((c) => c.slug === slug)
-  const subcategory = category?.subcategories.find((s) => s.slug === subslug)
+  const category = await getCategoryBySlug(slug)
+  const subcategory = await getSubcategory(slug, subslug)
   if (!category || !subcategory) return { title: "ვერ მოიძებნა" }
 
   const title = `${subcategory.name} — ${category.name}`
   const description = subcategory.description?.trim() || `${subcategory.name} — samkaulebi.shop`
   const path = `/category/${category.slug}/${subcategory.slug}`
+  const ogImage = subcategory.image || category.image
   return {
     title,
     description,
     alternates: { canonical: path },
-    openGraph: { type: "website", url: path, title, description },
+    openGraph: {
+      type: "website",
+      url: path,
+      title,
+      description,
+      images: ogImage ? [ogImage] : undefined,
+    },
   }
 }
 
 export default async function SubcategoryPage({ params }: PageProps) {
   const { slug, subslug } = await params
-  const category = categories.find((c) => c.slug === slug)
-  const subcategory = category?.subcategories.find((s) => s.slug === subslug)
+  const category = await getCategoryBySlug(slug)
+  const subcategory = await getSubcategory(slug, subslug)
   if (!category || !subcategory) notFound()
 
   const subcategoryProducts = await getProductsBySubcategory(subcategory.slug)

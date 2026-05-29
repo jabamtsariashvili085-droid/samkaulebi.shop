@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { categories, getSubcategoriesByParent } from "@/lib/data/categories"
+import { getCategoryBySlug, getSubcategoriesByCategory } from "@/lib/supabase/categories"
 import { getProductsByCategory } from "@/lib/supabase/products"
 import { CategoryClient } from "./category-client"
 
@@ -12,7 +12,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const category = categories.find((c) => c.slug === slug)
+  const category = await getCategoryBySlug(slug)
   if (!category) return { title: "კატეგორია ვერ მოიძებნა" }
 
   const description = category.description?.trim() || `${category.name} — samkaulebi.shop`
@@ -21,16 +21,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: category.name,
     description,
     alternates: { canonical: path },
-    openGraph: { type: "website", url: path, title: category.name, description },
+    openGraph: {
+      type: "website",
+      url: path,
+      title: category.name,
+      description,
+      images: category.image ? [category.image] : undefined,
+    },
   }
 }
 
 export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params
-  const category = categories.find((c) => c.slug === slug)
+  const category = await getCategoryBySlug(slug)
   if (!category) notFound()
 
-  const subcategories = getSubcategoriesByParent(category.id)
+  const subcategories = await getSubcategoriesByCategory(category.id)
   const categoryProducts = await getProductsByCategory(category.slug)
   const subProductCounts = Object.fromEntries(
     subcategories.map((s) => [s.id, categoryProducts.filter((p) => p.subcategoryId === s.slug).length])

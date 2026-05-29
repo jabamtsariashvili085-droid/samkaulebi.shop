@@ -13,13 +13,13 @@ export async function POST(request: NextRequest) {
   const user = await requireAdmin()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { category_id, name, name_en, slug, description } = await request.json()
+  const { category_id, name, name_en, slug, description, image } = await request.json()
   if (!category_id || !name || !slug) return NextResponse.json({ error: 'category_id, name, slug required' }, { status: 400 })
 
   const admin = createAdminClient()
   const { data, error } = await admin
     .from('subcategories')
-    .insert({ id: slug, category_id, name, name_en: name_en || name, slug, description: description || '' })
+    .insert({ id: slug, category_id, name, name_en: name_en || name, slug, description: description || '', image: image || null })
     .select()
     .single()
 

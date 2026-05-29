@@ -17,7 +17,7 @@ const categoryImages: Record<string, string> = {
   haircare: '/images/products/pump-bottles-lavender.png',
 }
 
-export function CategoryShowcase() {
+export function CategoryShowcase({ images }: { images?: Record<string, string> }) {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
 
@@ -80,7 +80,7 @@ export function CategoryShowcase() {
                 <div className="aspect-[4/5] relative">
                   <div 
                     className="absolute inset-0 bg-cover bg-center boty-transition group-hover:scale-110"
-                    style={{ backgroundImage: `url(${categoryImages[category.slug]})` }}
+                    style={{ backgroundImage: `url(${images?.[category.slug] || categoryImages[category.slug]})` }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 </div>

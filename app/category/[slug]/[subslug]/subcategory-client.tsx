@@ -14,11 +14,12 @@ import { Footer } from "@/components/boty/footer"
 import { useCart } from "@/components/boty/cart-context"
 import { WishlistButton } from "@/components/boty/wishlist-button"
 import { StockBadge } from "@/components/boty/stock-badge"
-import type { Product, Category, Subcategory } from "@/lib/data/types"
+import type { Product } from "@/lib/data/types"
+import type { CategoryRow, SubcategoryRow } from "@/lib/supabase/categories"
 
 interface SubcategoryClientProps {
-  category: Category
-  subcategory: Subcategory
+  category: CategoryRow
+  subcategory: SubcategoryRow
   subcategoryProducts: Product[]
 }
 
@@ -116,7 +117,7 @@ export function SubcategoryClient({ category, subcategory, subcategoryProducts }
         {/* Hero Banner */}
         <div
           className="relative h-48 md:h-56 bg-cover bg-center"
-          style={{ backgroundImage: `url(${category.image})` }}
+          style={(subcategory.image || category.image) ? { backgroundImage: `url(${subcategory.image || category.image})` } : undefined}
         >
           <div className="absolute inset-0 bg-black/50" />
           <div className="relative z-10 h-full flex flex-col items-center justify-center text-white">
