@@ -37,8 +37,9 @@ export async function PATCH(
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  // Referral reward: when a referred customer's order is confirmed, credit the referrer once.
-  if (status === 'confirmed' && data.user_id) {
+  // Referral reward: when a referred customer's order becomes a real sale
+  // (confirmed / shipped / delivered), credit the referrer once.
+  if (['confirmed', 'shipped', 'delivered'].includes(status) && data.user_id) {
     await qualifyReferral(admin, data.user_id)
   }
 
