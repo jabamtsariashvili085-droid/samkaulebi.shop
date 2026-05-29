@@ -1,0 +1,23 @@
+# samkaulebi.shop
+
+> Georgian premium e-commerce store — jewelry, fragrances, and hair & body care.
+> ქართული პრემიუმ მაღაზია: სამკაულები, სუნამოები, თავის მოვლა.
+> Prices are in GEL (₾). Storefront content is primarily in Georgian.
+
+## Catalog
+- Jewelry / სამკაულები: rings, necklaces, earrings, bracelets
+- Fragrances / სუნამოები: women's, men's, unisex
+- Hair & Body Care / თავის მოვლა: shampoos, hair oils, body care
+
+## Machine-readable resources
+- Product feed (JSON): https://samkaulebi.shop/api/feed/products
+- Sitemap: https://samkaulebi.shop/sitemap.xml
+
+## Key pages
+- All products: https://samkaulebi.shop/shop
+- Product detail: https://samkaulebi.shop/product/{id}
+- Category: https://samkaulebi.shop/category/{category}
+- Subcategory: https://samkaulebi.shop/category/{category}/{subcategory}
+
+## Notes
+- Each product page exposes schema.org Product JSON-LD (name, image, price, availability).
