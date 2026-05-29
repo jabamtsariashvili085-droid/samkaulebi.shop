@@ -3,11 +3,12 @@
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
-import { LayoutDashboard, ShoppingBag, User, LogOut } from "lucide-react"
+import { LayoutDashboard, ShoppingBag, User, Gift, LogOut } from "lucide-react"
 
 const items = [
   { href: "/account", label: "მთავარი", icon: LayoutDashboard },
   { href: "/account/orders", label: "შეკვეთები", icon: ShoppingBag },
+  { href: "/account/referrals", label: "რეფერალი", icon: Gift },
   { href: "/account/profile", label: "პროფილი", icon: User },
 ]
 

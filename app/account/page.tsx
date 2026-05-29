@@ -55,13 +55,13 @@ export default async function AccountPage() {
                   <p className="text-sm text-muted-foreground">ქულა</p>
                 </div>
 
-                <div className="bg-card rounded-2xl p-5 border border-border/50">
+                <Link href="/account/referrals" className="bg-card rounded-2xl p-5 border border-border/50 hover:border-primary/30 transition-colors">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3">
                     <Gift className="w-5 h-5 text-primary" />
                   </div>
                   <p className="text-sm font-medium text-foreground">რეფერალი</p>
-                  <p className="text-sm text-muted-foreground">მალე — მოიწვიე მეგობარი</p>
-                </div>
+                  <p className="text-sm text-muted-foreground">მოიწვიე მეგობარი → ქულები</p>
+                </Link>
               </div>
             </div>
           </div>

@@ -2,13 +2,14 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { LayoutDashboard, Package, ShoppingBag, LogOut, FolderOpen, Zap } from "lucide-react"
+import { LayoutDashboard, Package, ShoppingBag, Users, LogOut, FolderOpen, Zap } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 
 const navItems = [
   { href: "/admin",           label: "Dashboard",   icon: LayoutDashboard },
   { href: "/admin/products",  label: "პროდუქტები",  icon: Package },
   { href: "/admin/orders",    label: "შეკვეთები",   icon: ShoppingBag },
+  { href: "/admin/customers", label: "მომხმარებლები", icon: Users },
   { href: "/admin/categories", label: "კატეგორიები",  icon: FolderOpen },
   { href: "/admin/optimizer",  label: "ოპტიმიზატორი", icon: Zap },
 ]
