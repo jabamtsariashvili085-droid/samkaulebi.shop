@@ -10,6 +10,23 @@ async function requireAdmin() {
 
 const MODEL = 'gemini-2.5-flash'
 
+/** Pull a JSON object out of a model reply that may include prose / ```json fences. */
+function extractJson(text: string): { alt_text?: string; tags?: string[]; description?: string } {
+  // strip code fences
+  let t = text.trim().replace(/^```(?:json)?/i, '').replace(/```$/i, '').trim()
+  // fall back to the first {...} block if there's surrounding prose
+  if (!t.startsWith('{')) {
+    const first = t.indexOf('{')
+    const last = t.lastIndexOf('}')
+    if (first !== -1 && last !== -1) t = t.slice(first, last + 1)
+  }
+  try {
+    return JSON.parse(t)
+  } catch {
+    return {}
+  }
+}
+
 export async function POST(request: NextRequest) {
   const user = await requireAdmin()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -35,27 +52,24 @@ export async function POST(request: NextRequest) {
   }
 
   const prompt =
-    `შენ ეხმარები ქართულ ონლაინ მაღაზიას (სამკაულები, სუნამოები, თმისა და სხეულის მოვლა). ` +
-    `დააკვირდი პროდუქტის ფოტოს და დააბრუნე:\n` +
-    `- alt_text: მოკლე, ბუნებრივი ქართული აღწერა SEO-სა და accessibility-სთვის (მაქს. 12 სიტყვა; აღწერს რა ჩანს ფოტოზე).\n` +
-    `- tags: 5–8 მოკლე ქართული საკვანძო სიტყვა/ფრაზა (მასალა, ფერი, ტიპი, სტილი, დანიშნულება).\n` +
-    (name ? `პროდუქტის სახელი: "${name}".` : '')
+    `შენ ხარ ქართული ონლაინ მაღაზიის (სამკაულები, სუნამოები, თმისა და სხეულის მოვლა) კონტენტ-მენეჯერი.\n\n` +
+    `ნაბიჯები:\n` +
+    `1. დააკვირდი ფოტოს და ამოიცანი კონკრეტული პროდუქტი — ბრენდი და სახელი (წაიკითხე ეტიკეტზე/შეფუთვაზე არსებული წარწერა).\n` +
+    `2. გამოიყენე Google ძებნა ამ პროდუქტის რეალური ინფორმაციის მოსაძებნად: არომატის ნოტები / შემადგენლობა / მასალა, დანიშნულება, მახასიათებლები, მიმოხილვები.\n` +
+    `3. დაწერე ბუნებრივი, გამყიდველი, მაგრამ სიმართლეს დაფუძნებული ქართული აღწერა.\n\n` +
+    (name ? `მაღაზიაში შეტანილი სახელი: "${name}".\n\n` : '') +
+    `დააბრუნე მხოლოდ ვალიდური JSON ობიექტი (სხვა ტექსტის, ახსნის ან ფენსების გარეშე) ამ ფორმატით:\n` +
+    `{\n` +
+    `  "description": "2–4 წინადადებიანი ქართული e-commerce აღწერა, რეალურ პროდუქტზე დაფუძნებული (არომატის/მასალის დეტალებით). თუ პროდუქტი ვერ ამოიცანი, აღწერე ის რაც ფოტოზე ჩანს — არ მოიგონო ფაქტები.",\n` +
+    `  "alt_text": "მოკლე ქართული alt-text SEO/accessibility-სთვის (მაქს. 12 სიტყვა)",\n` +
+    `  "tags": ["5–8 მოკლე ქართული საკვანძო სიტყვა: ბრენდი, ტიპი, არომატი/მასალა, ფერი, დანიშნულება"]\n` +
+    `}`
 
   const body = {
     contents: [
       { parts: [{ text: prompt }, { inline_data: { mime_type: mimeType, data: base64 } }] },
     ],
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: 'OBJECT',
-        properties: {
-          alt_text: { type: 'STRING' },
-          tags: { type: 'ARRAY', items: { type: 'STRING' } },
-        },
-        required: ['alt_text', 'tags'],
-      },
-    },
+    tools: [{ google_search: {} }],
   }
 
   let r: Response
@@ -74,15 +88,12 @@ export async function POST(request: NextRequest) {
   }
 
   const data = await r.json()
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? '{}'
-  let parsed: { alt_text?: string; tags?: string[] } = {}
-  try {
-    parsed = JSON.parse(text)
-  } catch {
-    return NextResponse.json({ error: 'AI პასუხი ვერ დამუშავდა' }, { status: 502 })
-  }
+  const parts = data?.candidates?.[0]?.content?.parts ?? []
+  const text = parts.map((p: { text?: string }) => p.text ?? '').join('').trim()
+  const parsed = extractJson(text)
 
   return NextResponse.json({
+    description: (parsed.description ?? '').trim(),
     altText: (parsed.alt_text ?? '').trim(),
     tags: Array.isArray(parsed.tags) ? parsed.tags.map(t => String(t).trim()).filter(Boolean) : [],
   })

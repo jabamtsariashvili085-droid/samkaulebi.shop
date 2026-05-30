@@ -61,6 +61,8 @@ export default function ProductForm({ categories, initial }: { categories: Categ
       if (!res.ok) { setError(data.error ?? 'AI ვერ მუშაობს'); return }
       if (data.altText) setImageAlt(data.altText)
       if (Array.isArray(data.tags)) setTags(prev => Array.from(new Set([...prev, ...data.tags])))
+      // აღწერას ვავსებთ მხოლოდ თუ ცარიელია — ხელით დაწერილს არ გადავაწერთ
+      if (data.description) setForm(prev => prev.description.trim() ? prev : { ...prev, description: data.description })
     } catch {
       setError('AI მოთხოვნა ვერ შესრულდა')
     } finally {
@@ -178,7 +180,7 @@ export default function ProductForm({ categories, initial }: { categories: Categ
         <div className="flex items-center justify-between">
           <div>
             <h2 className="font-medium text-foreground">SEO და ტეგები</h2>
-            <p className="text-xs text-muted-foreground mt-0.5">AI შეავსებს სურათის მიხედვით — შემდეგ შეგიძლია ჩაასწორო</p>
+            <p className="text-xs text-muted-foreground mt-0.5">AI ამოიცნობს პროდუქტს, მოიძიებს ინტერნეტში და შეავსებს აღწერას, alt-text-ს და ტეგებს — შემდეგ შეგიძლია ჩაასწორო</p>
           </div>
           <button
             type="button"
