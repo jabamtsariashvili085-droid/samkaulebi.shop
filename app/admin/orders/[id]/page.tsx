@@ -117,6 +117,12 @@ export default async function AdminOrderDetailPage({
               <span className="text-muted-foreground">სულ პროდუქტი</span>
               <span className="text-foreground font-medium">{items.length}</span>
             </div>
+            {order.discount_code && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">პრომოკოდი</span>
+                <span className="text-green-600 font-medium">{order.discount_code}</span>
+              </div>
+            )}
             {order.gift_wrap && (
               <div className="flex items-center gap-2 text-primary">
                 <Gift className="w-3.5 h-3.5" />
@@ -174,10 +180,10 @@ export default async function AdminOrderDetailPage({
             <span>ქვეჯამი</span>
             <span>{subtotal.toFixed(0)}₾</span>
           </div>
-          {Number(order.subtotal) !== Number(order.total) && (
-            <div className="flex justify-between text-sm text-muted-foreground">
-              <span>მიწოდება</span>
-              <span>{(Number(order.total) - subtotal).toFixed(0)}₾</span>
+          {Number(order.discount_amount) > 0 && (
+            <div className="flex justify-between text-sm text-green-600">
+              <span>ფასდაკლება{order.discount_code ? ` (${order.discount_code})` : ""}</span>
+              <span>−{Number(order.discount_amount).toFixed(0)}₾</span>
             </div>
           )}
           <div className="flex justify-between font-semibold text-foreground text-base pt-1 border-t border-border/50">
