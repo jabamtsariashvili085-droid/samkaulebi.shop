@@ -83,7 +83,7 @@ export function ProductDetailClient({ product, category, subcategory, relatedPro
               <div className="relative aspect-square rounded-3xl overflow-hidden bg-muted boty-shadow">
                 <Image
                   src={product.images[selectedImage] || "/placeholder.svg"}
-                  alt={product.name}
+                  alt={product.imageAlt || product.name}
                   fill
                   className="object-cover"
                   priority

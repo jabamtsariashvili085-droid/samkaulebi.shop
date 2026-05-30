@@ -3,14 +3,14 @@
 import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { Upload, X, Loader2 } from "lucide-react"
+import { Upload, X, Loader2, Sparkles } from "lucide-react"
 
 type Category = { id: string; name: string; subcategories: { id: string; name: string }[] }
 type ProductData = {
   id?: string; name?: string; name_en?: string; description?: string
   price?: number; original_price?: number; category_id?: string; subcategory_id?: string
   badge?: string; stock?: number; sku?: string; featured?: boolean; images?: string[]
-  specifications?: Record<string, string>
+  specifications?: Record<string, string>; tags?: string[]; image_alt?: string
 }
 
 export default function ProductForm({ categories, initial }: { categories: Category[]; initial?: ProductData }) {
@@ -33,9 +33,40 @@ export default function ProductForm({ categories, initial }: { categories: Categ
   })
 
   const [images, setImages] = useState<string[]>(initial?.images ?? [])
+  const [tags, setTags] = useState<string[]>(initial?.tags ?? [])
+  const [tagInput, setTagInput] = useState("")
+  const [imageAlt, setImageAlt] = useState(initial?.image_alt ?? "")
+  const [aiLoading, setAiLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
+
+  const addTag = (t: string) => {
+    const v = t.trim()
+    if (v && !tags.includes(v)) setTags(prev => [...prev, v])
+    setTagInput("")
+  }
+
+  const generateAi = async () => {
+    if (!images[0]) { setError("ჯერ ატვირთე სურათი"); return }
+    setAiLoading(true)
+    setError("")
+    try {
+      const res = await fetch('/api/admin/ai/describe-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageUrl: images[0], name: form.name }),
+      })
+      const data = await res.json()
+      if (!res.ok) { setError(data.error ?? 'AI ვერ მუშაობს'); return }
+      if (data.altText) setImageAlt(data.altText)
+      if (Array.isArray(data.tags)) setTags(prev => Array.from(new Set([...prev, ...data.tags])))
+    } catch {
+      setError('AI მოთხოვნა ვერ შესრულდა')
+    } finally {
+      setAiLoading(false)
+    }
+  }
 
   const subcategories = categories.find(c => c.id === form.category_id)?.subcategories ?? []
 
@@ -91,6 +122,8 @@ export default function ProductForm({ categories, initial }: { categories: Categ
       sku:            form.sku || null,
       featured:       form.featured,
       images,
+      tags,
+      image_alt:      imageAlt || null,
     }
 
     const url = initial?.id ? `/api/admin/products/${initial.id}` : '/api/admin/products'
@@ -138,6 +171,58 @@ export default function ProductForm({ categories, initial }: { categories: Categ
           </label>
         </div>
         <p className="text-xs text-muted-foreground">JPG, PNG, WebP — პირველი სურათი მთავარია</p>
+      </div>
+
+      {/* SEO & AI tags */}
+      <div className="bg-card rounded-2xl p-6 border border-border/50 space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-medium text-foreground">SEO და ტეგები</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">AI შეავსებს სურათის მიხედვით — შემდეგ შეგიძლია ჩაასწორო</p>
+          </div>
+          <button
+            type="button"
+            onClick={generateAi}
+            disabled={aiLoading || !images.length}
+            className="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg border border-primary/40 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50 shrink-0"
+          >
+            {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            {aiLoading ? 'AI ფიქრობს...' : 'AI-ით შევსება'}
+          </button>
+        </div>
+
+        <div>
+          <label className="text-sm text-muted-foreground mb-1.5 block">სურათის აღწერა (alt-text)</label>
+          <input
+            value={imageAlt}
+            onChange={e => setImageAlt(e.target.value)}
+            placeholder="მაგ. ოქროს საქორწინო ბეჭედი თეთრ ფონზე"
+            className="w-full px-4 py-2.5 rounded-xl bg-background border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+          />
+        </div>
+
+        <div>
+          <label className="text-sm text-muted-foreground mb-1.5 block">ტეგები</label>
+          {tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-2">
+              {tags.map(t => (
+                <span key={t} className="inline-flex items-center gap-1 text-xs bg-muted px-2.5 py-1 rounded-full text-foreground">
+                  {t}
+                  <button type="button" onClick={() => setTags(prev => prev.filter(x => x !== t))} className="text-muted-foreground hover:text-red-500">
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+          <input
+            value={tagInput}
+            onChange={e => setTagInput(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); addTag(tagInput) } }}
+            placeholder="დაამატე ტეგი + Enter"
+            className="w-full px-4 py-2.5 rounded-xl bg-background border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+          />
+        </div>
       </div>
 
       {/* Basic Info */}

@@ -30,11 +30,13 @@ interface ProductRow {
   specifications: Record<string, unknown> | null
   featured: boolean | null
   created_at: string | null
+  image_alt: string | null
+  tags: string[] | null
 }
 
 // explicit column list (keeps payload tight + intentional)
 const PRODUCT_COLUMNS =
-  'id,name,name_en,description,price,original_price,images,category_id,subcategory_id,badge,stock,sku,specifications,featured,created_at'
+  'id,name,name_en,description,price,original_price,images,category_id,subcategory_id,badge,stock,sku,specifications,featured,created_at,image_alt,tags'
 
 function mapProduct(row: ProductRow): Product {
   return {
@@ -54,6 +56,8 @@ function mapProduct(row: ProductRow): Product {
     createdAt: row.created_at ? new Date(row.created_at) : new Date(),
     featured: row.featured ?? false,
     specifications: (row.specifications as Record<string, string>) ?? {},
+    imageAlt: row.image_alt ?? undefined,
+    tags: row.tags ?? [],
   }
 }
 

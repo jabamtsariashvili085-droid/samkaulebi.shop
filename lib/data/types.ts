@@ -53,6 +53,8 @@ export interface Product {
   createdAt: Date
   featured?: boolean
   specifications?: Record<string, string>
+  imageAlt?: string
+  tags?: string[]
 }
 
 // მომხმარებლის ინტერფეისი
