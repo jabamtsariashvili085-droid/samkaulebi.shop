@@ -30,11 +30,11 @@ export function CTABanner() {
   }, [])
 
   return (
-    <section className="py-24 bg-background">
+    <section className="py-16 md:py-24 bg-background">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div 
           ref={bannerRef}
-          className={`rounded-3xl p-12 md:p-16 flex flex-col justify-center relative overflow-hidden min-h-[400px] transition-all duration-700 ease-out ${
+          className={`rounded-3xl p-8 md:p-16 flex flex-col justify-center relative overflow-hidden min-h-[350px] md:min-h-[400px] transition-all duration-700 ease-out ${
             isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
           }`}
         >
@@ -47,10 +47,10 @@ export function CTABanner() {
           />
           
           <div className="relative z-10 text-left max-w-2xl">
-            <h3 className="text-4xl md:text-5xl text-white mb-4 lg:text-5xl">
+            <h3 className="text-3xl md:text-4xl lg:text-5xl text-white mb-4">
               100% ორიგინალი
             </h3>
-            <h3 className="text-3xl md:text-4xl lg:text-5xl text-white/70 mb-8">
+            <h3 className="text-2xl md:text-3xl lg:text-5xl text-white/70 mb-8">
               100% შენთვის
             </h3>
             

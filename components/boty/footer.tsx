@@ -23,13 +23,13 @@ export function Footer() {
     <footer className="bg-card pt-20 pb-10 relative overflow-hidden">
       {/* Giant Background Text */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none select-none z-0">
-        <span className="font-serif text-[120px] sm:text-[160px] md:text-[240px] lg:text-[300px] xl:text-[360px] font-bold text-white/20 whitespace-nowrap leading-none">
+        <span className="font-serif text-[70px] sm:text-[120px] md:text-[200px] lg:text-[260px] xl:text-[320px] font-bold text-white/5 md:text-white/20 whitespace-nowrap leading-none opacity-50 sm:opacity-100">
           samkaulebi
         </span>
       </div>
       
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <h2 className="font-serif text-2xl text-foreground mb-4">

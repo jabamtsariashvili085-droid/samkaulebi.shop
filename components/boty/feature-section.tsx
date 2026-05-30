@@ -89,16 +89,16 @@ export function FeatureSection() {
   }, [])
 
   return (
-    <section className="py-24 bg-background">
+    <section className="py-16 md:py-24 bg-background">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Bento Grid */}
         <div 
           ref={bentoRef}
-          className="grid md:grid-cols-4 mb-20 md:grid-rows-[300px_300px] gap-6"
+          className="grid md:grid-cols-4 mb-10 md:mb-20 md:grid-rows-[300px_300px] gap-6"
         >
           {/* Left Large Block - Video with Overlay Card */}
           <div 
-            className={`relative rounded-3xl overflow-hidden h-[500px] md:h-auto md:col-span-2 md:row-span-2 transition-all duration-700 ease-out ${
+            className={`relative rounded-3xl overflow-hidden h-[400px] sm:h-[450px] md:h-auto md:col-span-2 md:row-span-2 transition-all duration-700 ease-out ${
               isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             }`}
             style={{ transitionDelay: '0ms' }}
@@ -207,7 +207,7 @@ export function FeatureSection() {
 
         <div 
           ref={videoSectionRef}
-          className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center my-0 py-20"
+          className="grid lg:grid-cols-2 gap-8 lg:gap-20 items-center my-0 py-12 lg:py-20"
         >
           {/* Video */}
           <div 
@@ -237,10 +237,10 @@ export function FeatureSection() {
             <span className={`text-sm tracking-[0.3em] uppercase text-primary mb-4 block ${headerVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`} style={headerVisible ? { animationDelay: '0.2s', animationFillMode: 'forwards' } : {}}>
               რატომ ჩვენ
             </span>
-            <h2 className={`font-serif text-4xl leading-tight text-foreground mb-6 text-balance md:text-7xl ${headerVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`} style={headerVisible ? { animationDelay: '0.4s', animationFillMode: 'forwards' } : {}}>
+            <h2 className={`font-serif text-3xl md:text-5xl lg:text-7xl leading-tight text-foreground mb-6 text-balance ${headerVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`} style={headerVisible ? { animationDelay: '0.4s', animationFillMode: 'forwards' } : {}}>
               ხარისხი, რომელსაც ენდობი.
             </h2>
-            <p className={`text-lg text-muted-foreground leading-relaxed mb-10 max-w-md ${headerVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`} style={headerVisible ? { animationDelay: '0.6s', animationFillMode: 'forwards' } : {}}>
+            <p className={`text-base md:text-lg text-muted-foreground leading-relaxed mb-10 max-w-md ${headerVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`} style={headerVisible ? { animationDelay: '0.6s', animationFillMode: 'forwards' } : {}}>
               ჩვენ გთავაზობთ მხოლოდ საუკეთესო პროდუქციას საუკეთესო ფასად. 
               ყოველი პროდუქტი შერჩეულია თქვენთვის სიყვარულით და ზრუნვით.
             </p>

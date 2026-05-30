@@ -138,7 +138,7 @@ export function Testimonials() {
   }, [])
 
   return (
-    <section className="py-24 bg-background overflow-hidden pb-24 pt-12">
+    <section className="py-16 md:py-24 bg-background overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div ref={headerRef} className="text-center mb-16">
@@ -151,7 +151,7 @@ export function Testimonials() {
             შეფასებები
           </span>
           <h2
-            className={`font-serif text-4xl leading-tight text-foreground text-balance md:text-7xl ${
+            className={`font-serif text-3xl md:text-5xl lg:text-7xl leading-tight text-foreground text-balance ${
               headerVisible ? "animate-blur-in opacity-0" : "opacity-0"
             }`}
             style={headerVisible ? { animationDelay: "0.4s", animationFillMode: "forwards" } : {}}

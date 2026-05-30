@@ -39,7 +39,7 @@ export function CategoryShowcase({ images }: { images?: Record<string, string> }
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-24 bg-background">
+    <section ref={sectionRef} className="py-16 md:py-24 bg-background">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -50,13 +50,13 @@ export function CategoryShowcase({ images }: { images?: Record<string, string> }
             კატეგორიები
           </span>
           <h2 
-            className={`font-serif leading-tight text-foreground mb-4 text-balance text-5xl md:text-6xl lg:text-7xl ${isVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`}
+            className={`font-serif leading-tight text-foreground mb-4 text-balance text-3xl md:text-5xl lg:text-7xl ${isVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`}
             style={isVisible ? { animationDelay: '0.4s', animationFillMode: 'forwards' } : {}}
           >
             აღმოაჩინე შენი სტილი
           </h2>
           <p 
-            className={`text-lg text-muted-foreground max-w-md mx-auto ${isVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`}
+            className={`text-base md:text-lg text-muted-foreground max-w-md mx-auto ${isVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`}
             style={isVisible ? { animationDelay: '0.6s', animationFillMode: 'forwards' } : {}}
           >
             პრემიუმ პროდუქტები თითოეული კატეგორიისთვის

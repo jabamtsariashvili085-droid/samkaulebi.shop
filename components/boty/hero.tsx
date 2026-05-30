@@ -36,8 +36,8 @@ export function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative w-full pt-24 z-10">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="relative w-full pt-28 md:pt-32 lg:pt-40 z-10 flex flex-col justify-center min-h-[100dvh]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full mt-[-8dvh] md:mt-0">
           <div className="w-full lg:max-w-2xl">
 
             {/* Badge */}
@@ -52,15 +52,15 @@ export function Hero() {
             </div>
 
             {/* Headline */}
-            <h1 className="font-serif leading-[1.05] mb-6 text-black">
+            <h1 className="font-serif leading-[1.05] mb-6 text-black tracking-tight">
               <span
-                className="block text-4xl md:text-5xl lg:text-6xl font-medium animate-blur-in opacity-0"
+                className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium animate-blur-in opacity-0"
                 style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}
               >
                 სილამაზე, რომელიც
               </span>
               <span
-                className="block text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-bold animate-blur-in opacity-0"
+                className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[6.5rem] font-bold animate-blur-in opacity-0"
                 style={{ animationDelay: "0.45s", animationFillMode: "forwards" }}
               >
                 მოგიყვება.
@@ -78,19 +78,19 @@ export function Hero() {
 
             {/* CTAs */}
             <div
-              className="flex flex-wrap gap-3 mb-14 animate-blur-in opacity-0"
+              className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-14 animate-blur-in opacity-0"
               style={{ animationDelay: "0.8s", animationFillMode: "forwards" }}
             >
               <Link
                 href="/shop"
-                className="group inline-flex items-center gap-2.5 bg-foreground text-background px-7 py-3.5 rounded-full text-sm font-medium tracking-wide hover:bg-foreground/85 transition-all duration-300 shadow-lg shadow-black/10"
+                className="group inline-flex w-full sm:w-auto justify-center items-center gap-2.5 bg-foreground text-background px-7 py-4 rounded-full text-sm font-medium tracking-wide hover:bg-foreground/85 transition-all duration-300 shadow-xl shadow-black/10"
               >
                 მაღაზია
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" />
               </Link>
               <Link
                 href="/category/jewelry"
-                className="inline-flex items-center gap-2.5 bg-white/25 backdrop-blur-sm text-black px-7 py-3.5 rounded-full text-sm font-medium tracking-wide hover:bg-white/40 transition-all duration-300 border border-white/40"
+                className="inline-flex w-full sm:w-auto justify-center items-center gap-2.5 bg-white/30 backdrop-blur-md text-black px-7 py-4 rounded-full text-sm font-medium tracking-wide hover:bg-white/50 transition-all duration-300 border border-white/50"
               >
                 სამკაულები
               </Link>

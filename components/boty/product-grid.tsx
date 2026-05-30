@@ -107,17 +107,17 @@ export function ProductGrid({ products }: { products: Product[] }) {
   }
 
   return (
-    <section className="py-24 bg-card">
+    <section className="py-16 md:py-24 bg-card">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div ref={headerRef} className="text-center mb-16">
           <span className={`text-sm tracking-[0.3em] uppercase text-primary mb-4 block ${headerVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`} style={headerVisible ? { animationDelay: '0.2s', animationFillMode: 'forwards' } : {}}>
             ჩვენი კოლექცია
           </span>
-          <h2 className={`font-serif leading-tight text-foreground mb-4 text-balance text-5xl md:text-6xl lg:text-7xl ${headerVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`} style={headerVisible ? { animationDelay: '0.4s', animationFillMode: 'forwards' } : {}}>
+          <h2 className={`font-serif leading-tight text-foreground mb-4 text-balance text-3xl md:text-5xl lg:text-7xl ${headerVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`} style={headerVisible ? { animationDelay: '0.4s', animationFillMode: 'forwards' } : {}}>
             პოპულარული პროდუქტები
           </h2>
-          <p className={`text-lg text-muted-foreground max-w-md mx-auto ${headerVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`} style={headerVisible ? { animationDelay: '0.6s', animationFillMode: 'forwards' } : {}}>
+          <p className={`text-base md:text-lg text-muted-foreground max-w-md mx-auto ${headerVisible ? 'animate-blur-in opacity-0' : 'opacity-0'}`} style={headerVisible ? { animationDelay: '0.6s', animationFillMode: 'forwards' } : {}}>
             აირჩიე შენთვის სასურველი კატეგორია
           </p>
         </div>
@@ -153,7 +153,7 @@ export function ProductGrid({ products }: { products: Product[] }) {
         {/* Product Grid */}
         <div 
           ref={gridRef}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
         >
           {filteredProducts.map((product, index) => (
             <Link
