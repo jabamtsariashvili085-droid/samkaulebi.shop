@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { REFERRAL_REWARD_POINTS } from '@/lib/site'
+import { REFERRAL_REWARD_RATE } from '@/lib/site'
 
 async function requireAdmin() {
   const supabase = await createClient()
@@ -32,7 +32,7 @@ export async function PATCH(
     .from('orders')
     .update({ status })
     .eq('id', id)
-    .select('id, status, user_id')
+    .select('id, status, user_id, total')
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -40,13 +40,15 @@ export async function PATCH(
   // Referral reward: when a referred customer's order becomes a real sale
   // (confirmed / shipped / delivered), credit the referrer once.
   if (['confirmed', 'shipped', 'delivered'].includes(status) && data.user_id) {
-    await qualifyReferral(admin, data.user_id)
+    await qualifyReferral(admin, data.user_id, Number(data.total) || 0)
   }
 
   return NextResponse.json(data)
 }
 
-async function qualifyReferral(admin: ReturnType<typeof createAdminClient>, referredUserId: string) {
+async function qualifyReferral(admin: ReturnType<typeof createAdminClient>, referredUserId: string, orderTotal: number) {
+  const points = Math.round(orderTotal * REFERRAL_REWARD_RATE)
+
   const { data: ref } = await admin
     .from('referrals')
     .select('id, referrer_id')
@@ -58,7 +60,7 @@ async function qualifyReferral(admin: ReturnType<typeof createAdminClient>, refe
   // The status guard makes this idempotent under concurrent confirmations.
   const { data: updated } = await admin
     .from('referrals')
-    .update({ status: 'qualified', points_awarded: REFERRAL_REWARD_POINTS, qualified_at: new Date().toISOString() })
+    .update({ status: 'qualified', points_awarded: points, qualified_at: new Date().toISOString() })
     .eq('id', ref.id)
     .eq('status', 'pending')
     .select('id')
@@ -68,6 +70,6 @@ async function qualifyReferral(admin: ReturnType<typeof createAdminClient>, refe
   const { data: refProfile } = await admin.from('profiles').select('points').eq('id', ref.referrer_id).maybeSingle()
   await admin
     .from('profiles')
-    .update({ points: (refProfile?.points ?? 0) + REFERRAL_REWARD_POINTS })
+    .update({ points: (refProfile?.points ?? 0) + points })
     .eq('id', ref.referrer_id)
 }

@@ -5,7 +5,7 @@ import { Header } from "@/components/boty/header"
 import { Footer } from "@/components/boty/footer"
 import { AccountNav } from "@/components/account/account-nav"
 import { ReferralLink } from "@/components/account/referral-link"
-import { REFERRAL_REWARD_POINTS } from "@/lib/site"
+import { REFERRAL_REWARD_RATE } from "@/lib/site"
 import { Gift, Users, CheckCircle, Award } from "lucide-react"
 
 export const dynamic = "force-dynamic"
@@ -55,7 +55,7 @@ export default async function ReferralsPage() {
               </div>
               <p className="text-sm text-muted-foreground mb-6">
                 გაუზიარე შენი ლინკი. როცა მოწვეული მეგობარი პირველ შეკვეთას გააფორმებს და ის დადასტურდება,
-                შენ მიიღებ <span className="text-foreground font-medium">{REFERRAL_REWARD_POINTS} ქულას</span>.
+                შენ მიიღებ მისი შენაძენის <span className="text-foreground font-medium">{REFERRAL_REWARD_RATE * 100}%-ს</span> ქულებში (1 ქულა ≈ 1₾).
               </p>
 
               <div className="bg-card rounded-2xl p-5 border border-border/50 mb-6">

@@ -15,5 +15,6 @@ export const SITE_NAME = 'samkaulebi.shop'
 export const SITE_DESCRIPTION =
   'პრემიუმ სამკაულები, სუნამოები და თავის მოვლის საშუალებები. საუკეთესო ხარისხი საუკეთესო ფასად.'
 
-// Points awarded to the referrer when a referred customer's order is confirmed.
-export const REFERRAL_REWARD_POINTS = 50
+// Referral reward: the referrer earns this fraction of the referred customer's
+// order total (as points; 1 point ≈ 1₾) when that order becomes a real sale.
+export const REFERRAL_REWARD_RATE = 0.05
