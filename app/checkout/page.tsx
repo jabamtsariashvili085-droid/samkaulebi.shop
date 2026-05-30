@@ -14,8 +14,46 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Promo code
+  const [promo, setPromo] = useState("")
+  const [applied, setApplied] = useState<{ code: string; discount: number } | null>(null)
+  const [promoMsg, setPromoMsg] = useState<{ ok: boolean; text: string } | null>(null)
+  const [promoLoading, setPromoLoading] = useState(false)
+
   const shipping = 0
-  const total = subtotal + shipping
+  const discount = applied?.discount ?? 0
+  const total = Math.max(0, subtotal - discount + shipping)
+
+  const applyPromo = async () => {
+    if (!promo.trim()) return
+    setPromoLoading(true)
+    setPromoMsg(null)
+    try {
+      const res = await fetch("/api/discounts/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: promo, subtotal }),
+      })
+      const data = await res.json()
+      if (data.valid) {
+        setApplied({ code: data.code, discount: data.discount })
+        setPromoMsg({ ok: true, text: data.message })
+      } else {
+        setApplied(null)
+        setPromoMsg({ ok: false, text: data.message })
+      }
+    } catch {
+      setPromoMsg({ ok: false, text: "შეცდომა, სცადე თავიდან" })
+    } finally {
+      setPromoLoading(false)
+    }
+  }
+
+  const removePromo = () => {
+    setApplied(null)
+    setPromo("")
+    setPromoMsg(null)
+  }
 
   const [form, setForm] = useState({
     firstName: "",
@@ -45,6 +83,7 @@ export default function CheckoutPage() {
           items: items.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity, image: i.image })),
           subtotal,
           total,
+          discountCode: applied?.code ?? null,
         }),
       })
 
@@ -267,12 +306,48 @@ export default function CheckoutPage() {
                     ))}
                   </div>
 
+                  {/* Promo code */}
+                  <div className="border-t border-border/50 pt-4 mb-4">
+                    {applied ? (
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-green-600 font-medium">პრომოკოდი: {applied.code}</span>
+                        <button type="button" onClick={removePromo} className="text-xs text-muted-foreground hover:text-red-500">მოხსნა</button>
+                      </div>
+                    ) : (
+                      <div className="flex gap-2">
+                        <input
+                          value={promo}
+                          onChange={e => setPromo(e.target.value)}
+                          placeholder="პრომოკოდი"
+                          className="flex-1 px-3 py-2 rounded-xl bg-background border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 uppercase"
+                        />
+                        <button
+                          type="button"
+                          onClick={applyPromo}
+                          disabled={promoLoading || !promo.trim()}
+                          className="px-4 py-2 rounded-xl border border-border text-sm font-medium hover:bg-muted transition-colors disabled:opacity-50"
+                        >
+                          {promoLoading ? "..." : "გამოყენება"}
+                        </button>
+                      </div>
+                    )}
+                    {promoMsg && (
+                      <p className={`text-xs mt-2 ${promoMsg.ok ? "text-green-600" : "text-red-500"}`}>{promoMsg.text}</p>
+                    )}
+                  </div>
+
                   {/* Totals */}
                   <div className="space-y-2 text-sm border-t border-border/50 pt-4 mb-6">
                     <div className="flex justify-between text-muted-foreground">
                       <span>ჯამი</span>
                       <span>{subtotal}₾</span>
                     </div>
+                    {discount > 0 && (
+                      <div className="flex justify-between text-green-600">
+                        <span>ფასდაკლება</span>
+                        <span>−{discount}₾</span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-muted-foreground">
                       <span>მიტანა</span>
                       <span className="text-primary font-medium">უფასო</span>
