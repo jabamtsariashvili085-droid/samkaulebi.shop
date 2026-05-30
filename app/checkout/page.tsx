@@ -83,7 +83,7 @@ export default function CheckoutPage() {
           items: items.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity, image: i.image })),
           subtotal,
           total,
-          discountCode: applied?.code ?? null,
+          discountCode: applied?.code ?? (promo.trim() || null),
         }),
       })
 
@@ -318,6 +318,7 @@ export default function CheckoutPage() {
                         <input
                           value={promo}
                           onChange={e => setPromo(e.target.value)}
+                          onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); applyPromo() } }}
                           placeholder="პრომოკოდი"
                           className="flex-1 px-3 py-2 rounded-xl bg-background border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 uppercase"
                         />
